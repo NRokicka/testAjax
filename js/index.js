@@ -1,15 +1,40 @@
-document.getElementById('loaded').innerHTML = (new Date()).toLocaleTimeString();
+loaded.innerHTML = (new Date()).toLocaleTimeString();
 
-document.getElementById('get-data').addEventListener('click', function(e) {
+document.getElementById('btn-get').addEventListener('click', function(e) {
     e.preventDefault();
     var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
+            var htmlCode = '<table><tr><th>Name</th><th>Address</th></tr>';
             var clientData = JSON.parse(xhr.responseText);
-            document.getElementById('client-name').innerHTML = clientData.name;
-            document.getElementById('client-address').innerHTML = clientData.address;
+            clientData.forEach(function(el) {
+                htmlCode += '<tr><td>' + el.name + '</td><td>' + el.address + '</td></tr>';
+            })
+            htmlCode += '</table>';
+            document.getElementById('client-data').innerHTML = htmlCode;
         }
     }
     xhr.open('GET', 'client-data.json', true);
     xhr.send();
-})
+});
+
+
+/*
+loaded.innerHTML = (new Date()).toLocaleTimeString();
+
+document.getElementById('btn-get').addEventListener('click', function(e) {
+    e.preventDefault();
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            
+            var clientData = JSON.parse(xhr.responseText);
+            document.getElementById('client-data').innerHTML = clientData[1].name;
+            document.getElementById('client-address').innerHTML = clientData[1].address;
+            
+        }
+    }
+    xhr.open('GET', 'client-data.json', true);
+    xhr.send();
+});
+*/
